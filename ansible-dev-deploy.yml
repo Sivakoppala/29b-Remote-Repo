@@ -1,0 +1,18 @@
+---
+  - name: Git pull, Convert to HTML, Deploy on Tomcat
+    hosts: localhost
+    vars:
+       - dest: "/home/ansibleadm/FN-Dev/"
+    #    - word_docx_loc: "/home/ansibleadm/"
+    tasks:
+      - name: git pull
+        git:
+          repo: 'https://github.com/Knowledgesprint-Technologies/FN-Dev.git'
+          dest: "{{ dest }}"
+      
+      - name: convert to html
+        shell: bash for-html.sh
+
+      - name: deploy to tomcat using rsync (push)
+        command:
+          rsync -avh --delete html-gen-files/ tomcat@13.233.129.77:/opt/tomcat9/webapps/fn-dev/
