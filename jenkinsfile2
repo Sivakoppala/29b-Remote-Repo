@@ -1,0 +1,20 @@
+pipeline {
+    agent any
+    parameters {
+        choice(name: 'container_action', choices: ['start', 'stop'], description: 'its used for starting and stoping the container') 
+        string(name: 'container_name', defaultValue: 'my_container', description: 'Who should I say hello to?')
+    }
+    stages {
+        stage('start or stop container') {
+            steps {
+                script {
+                    if (params.container_action=='start') {
+                       sh "docker run -dp 80:80 --name=${params.container_name} sivakoppala/phython-webserver:1.0" 
+                     }else{
+                       sh "docker stop --name=${params.container_name}"
+                     }
+                }
+            }
+        }
+    }
+}
