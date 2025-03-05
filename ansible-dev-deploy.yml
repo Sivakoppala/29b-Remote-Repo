@@ -8,11 +8,12 @@
       - name: git pull
         git:
           repo: 'https://github.com/Knowledgesprint-Technologies/FN-Dev.git'
+          force: yes
           dest: "{{ dest }}"
       
       - name: convert to html
-        shell: bash for-html.sh
+        shell: bash /home/ansibleadm/FN-Dev/env-configs/dev/scripts/for-html.sh
 
       - name: deploy to tomcat using rsync (push)
         command:
-          rsync -avh --delete html-gen-files/ tomcat@13.233.129.77:/opt/tomcat9/webapps/fn-dev/
+          rsync -avh --delete /home/ansibleadm/FN-Dev/html-gen-files/ tomcat@13.233.129.77:/opt/tomcat9/webapps/fn-dev/
